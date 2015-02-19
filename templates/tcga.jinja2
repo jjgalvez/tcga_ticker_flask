@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <script type="text/javascript" src="{{url_for('static', filename='jquery.min.js')}}" ></script>
+    <script type="text/javascript" src="{{url_for('static', filename='jquery.easy-ticker.min.js')}}" ></script>
+    <link href="{{url_for('static', filename='tcga.css')}}" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>TCGA Ticker Example</title>
+</head>
+<body>
+<p>
+Total TCGA records in the database to date: <i>{{tcgaRecord.Count}}</i>
+</p>
+<p>
+    <h3>latest 20 TCGA publications</h3>
+</body>
+
+<div class="tcgaTicker">
+    <ul>
+        {% for d in tcgaData %}
+            <li>
+            <b>Title: </b>{{d.TI}}<br />
+            <b>Authors:</b> {{d.AU}}<br />
+            <b>Abstract:</b>
+                    {{d.get('AB', '')[0:500]}} ...
+            <br />
+            <b>PMID: </b><a href="http://www.ncbi.nlm.nih.gov/pubmed/?term={{d.PMID}}[uid]" target="_blank">{{d.PMID}}</a><br />
+            </li>
+        {% endfor %}
+
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $('.tcgaTicker').easyTicker({
+        direction: 'up',
+        easing: 'swing',
+        speed: 'slow',
+        interval: 5000,
+        height: '300px',
+        visible: 0,
+        mousePause: 1,
+        controls: {
+            up: '',
+            down: '',
+            toggle: '',
+            playText: 'Play',
+            stopText: 'Stop'
+        }
+    });
+</script>
+
+</body>
+</html>
